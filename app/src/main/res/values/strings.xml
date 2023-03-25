@@ -2,4 +2,6 @@
     <string name="app_name">Civil Advocacy</string>
     <string name="about_strres">About</string>
     <string name="location_strres">Location</string>
+    <string name="official_title_strres">TextView</string>
+    <string name="official_name_strres">TextView</string>
 </resources>
