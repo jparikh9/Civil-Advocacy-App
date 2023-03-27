@@ -112,15 +112,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int selected = item.getItemId();
         if(selected == R.id.about_menu_vid){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            Intent intent = new Intent(this,AboutActivity.class);
+            startActivity(intent);
 
-            //builder.setIcon(R.drawable.icon1);
 
-            builder.setMessage("Here is useful info.");
-            builder.setTitle("About Dialog");
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
         }
         else if(selected == R.id.location_menu_vid){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);

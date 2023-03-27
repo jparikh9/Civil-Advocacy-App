@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/about"
+    tools:context=".AboutActivity">
+
+    <TextView
+        android:id="@+id/app_title_about_vid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="@string/civil_advocacy_strres"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/supporttext_about_vid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="116dp"
+        android:text="@string/data_provided_by_strres"
+        android:textColor="@color/white"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="@+id/app_title_about_vid"
+        app:layout_constraintStart_toStartOf="@+id/app_title_about_vid"
+        app:layout_constraintTop_toBottomOf="@+id/app_title_about_vid" />
+
+    <TextView
+        android:id="@+id/copyright_about_vid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="@string/copyright_strres"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/url_about_vid"
+        app:layout_constraintStart_toStartOf="@+id/url_about_vid"
+        app:layout_constraintTop_toBottomOf="@+id/url_about_vid" />
+
+    <TextView
+        android:id="@+id/version_about_vid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:text="@string/version_strres"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/copyright_about_vid"
+        app:layout_constraintStart_toStartOf="@+id/copyright_about_vid"
+        app:layout_constraintTop_toBottomOf="@+id/copyright_about_vid" />
+
+    <TextView
+        android:id="@+id/url_about_vid"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:onClick="goToInfoPage"
+        android:text="@string/about_screen_url_placeholder"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/supporttext_about_vid"
+        app:layout_constraintStart_toStartOf="@+id/supporttext_about_vid"
+        app:layout_constraintTop_toBottomOf="@+id/supporttext_about_vid" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

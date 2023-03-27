@@ -5,4 +5,10 @@
     <string name="official_title_strres">TextView</string>
     <string name="official_name_strres">TextView</string>
     <string name="deniedText">Location permission was denied - cannot determine address</string>
+    <string name="civil_advocacy_strres">Civil Advocacy</string>
+    <string name="data_provided_by_strres">Data provided by</string>
+    <string name="copyright_strres">© 2023, Jinit Parikh</string>
+    <string name="version_strres">Version 1.0</string>
+    <string name="about_screen_url">https://developers.google.com/civic-information/</string>
+    <string name="about_screen_url_placeholder"><u>Google Civic Information API</u></string>
 </resources>
