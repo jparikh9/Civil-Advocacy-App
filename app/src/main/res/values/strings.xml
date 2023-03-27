@@ -4,4 +4,5 @@
     <string name="location_strres">Location</string>
     <string name="official_title_strres">TextView</string>
     <string name="official_name_strres">TextView</string>
+    <string name="deniedText">Location permission was denied - cannot determine address</string>
 </resources>

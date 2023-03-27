@@ -15,6 +15,6 @@ public class OfficialViewHolder extends RecyclerView.ViewHolder {
         super(view);
         official_name =view.findViewById(R.id.official_name_list_vid);
         official_photo = view.findViewById(R.id.official_photo_list_vid);
-        official_post = view.findViewById(R.id.official_photo_list_vid);
+        official_post = view.findViewById(R.id.official_title_list_vid);
     }
 }
