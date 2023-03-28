@@ -10,10 +10,12 @@
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
+
             <data android:scheme="https" />
         </intent>
         <intent>
             <action android:name="android.intent.action.VIEW" />
+
             <data android:scheme="geo" />
         </intent>
     </queries>
@@ -27,6 +29,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CivilAdvocacy"
         tools:targetApi="31">
+        <activity
+            android:name=".OfficialActivity"
+            android:exported="false" />
         <activity
             android:name=".AboutActivity"
             android:exported="false" />

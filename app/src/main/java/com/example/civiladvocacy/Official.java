@@ -8,6 +8,9 @@ private String official_office;
 private String official_party;
 private String phone_number;
 private String official_email_id;
+private String official_address;
+private String official_website;
+private int official_photo;
 
 Official(){
     this.official_name = "";
@@ -15,7 +18,21 @@ Official(){
     this.official_office = "";
     this.official_party = "";
     this.phone_number = "";
+    this.official_address = "";
+    this.official_website = "";
 }
+
+    public void setOfficial_photo(int official_photo) {
+        this.official_photo = official_photo;
+    }
+
+    public int getOfficial_photo() {
+        return official_photo;
+    }
+
+    public String getOfficial_address() {
+        return official_address;
+    }
 
     public String getOfficial_email_id() {
         return official_email_id;
@@ -23,6 +40,10 @@ Official(){
 
     public String getOfficial_name() {
         return official_name;
+    }
+
+    public String getOfficial_website() {
+        return official_website;
     }
 
     public String getOfficial_office() {
@@ -55,5 +76,13 @@ Official(){
 
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
+    }
+
+    public void setOfficial_address(String official_address) {
+        this.official_address = official_address;
+    }
+
+    public void setOfficial_website(String official_website) {
+        this.official_website = official_website;
     }
 }

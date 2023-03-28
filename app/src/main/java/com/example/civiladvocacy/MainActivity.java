@@ -43,6 +43,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView locationTextView;
     private boolean networkFlag;
 
+    private String city ;
+    private String state ;
+    private String plotNo ;
+    private String streetName ;
+    private String postalCode ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,11 +74,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void getOfficialData(){
-        for(int i =0;i<4;i++){
+        for(int i =0;i<14;i++){
             Official official = new Official();
             official.setOfficial_email_id("jinitemail");
-            official.setOfficial_name("jinit");
+            official.setOfficial_name("jinit " + i);
             official.setOfficial_office("seceratry");
+            official.setOfficial_party("republic");
+            official.setPhone_number("3127145106");
+            //official.setOfficial_address("2951 s king drive");
+            official.setOfficial_website("www.google.com");
+            official.setOfficial_photo(R.drawable.brokenimage);
             officialList.add(official);
         }
         officialAdapter.notifyItemRangeChanged(0,officialList.size());
@@ -86,13 +97,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //remove from recycler view's list
         Official official = officialList.get(position);
         Toast.makeText(this, "clicked: " + position, Toast.LENGTH_SHORT).show();
-        //Intent intent = new Intent(this, EditActivity.class);
+        Intent intent = new Intent(this, OfficialActivity.class);
+
         // setting position in global variable to know which note to update after edit activity
-        //intent.putExtra("EditNote", note);
+        if(!official.getOfficial_email_id().isEmpty() ){
+            intent.putExtra("Email", official.getOfficial_email_id());
+        }
+        if(!official.getOfficial_address().isEmpty() ){
+            intent.putExtra("address", official.getOfficial_address());
+        }
+
+
+        if(!official.getPhone_number().isEmpty() ){
+            intent.putExtra("phoneNo",official.getPhone_number());
+        }
+        if(!official.getOfficial_website().isEmpty() ){
+            intent.putExtra("website", official.getOfficial_website());
+        }
+        intent.putExtra("official_name", official.getOfficial_name());
+        intent.putExtra("photo", official.getOfficial_photo());
+        intent.putExtra("location", locationString);
         //position_for_editNote = position;
         //flag_editNote = true;
         //intent.putExtra("Position",position);
         //activityResultLauncher.launch(intent);
+        startActivity(intent);
         //return false;
     }
 
@@ -175,11 +204,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         try {
             addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            String city = addresses.get(0).getLocality();
-            String state = addresses.get(0).getAdminArea();
-            String plotNo = addresses.get(0).getSubThoroughfare();
-            String streetName = addresses.get(0).getThoroughfare();
-            String postalCode = addresses.get(0).getPostalCode();
+            city = addresses.get(0).getLocality();
+            state = addresses.get(0).getAdminArea();
+            plotNo = addresses.get(0).getSubThoroughfare();
+            streetName = addresses.get(0).getThoroughfare();
+            postalCode = addresses.get(0).getPostalCode();
             stringBuilder.append(String.format(Locale.getDefault(), "%s %s,%s,%s %s", plotNo,streetName,postalCode,city, state));
         } catch (IOException e) {
             e.printStackTrace();
