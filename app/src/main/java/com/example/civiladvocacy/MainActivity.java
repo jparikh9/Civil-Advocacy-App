@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int LOCATION_REQUEST = 111;
 
-    private static String locationString = "Unspecified Location";
+    private String locationString = "Unspecified Location";
     private TextView locationTextView;
     private boolean networkFlag;
 
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String plotNo ;
     private String streetName ;
     private String postalCode ;
+    private CivicDataDownloader civicDataDownloader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,25 +64,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         networkFlag = hasNetworkConnection();
         if(networkFlag){
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-            getOfficialData();
+            //getOfficialData();
             determineCurrentLocation();
         }
         else{
             locationTextView.setText("No Internet");
         }
+        String loc = (String) locationTextView.getText();
 
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
     }
 
     public void getOfficialData(){
         for(int i =0;i<14;i++){
             Official official = new Official();
-            official.setOfficial_email_id("jinitemail");
+            //official.setOfficial_email_id("jinitemail");
             official.setOfficial_name("jinit " + i);
             official.setOfficial_office("seceratry");
             official.setOfficial_party("republic");
             official.setPhone_number("3127145106");
-            //official.setOfficial_address("2951 s king drive");
+            official.setOfficial_address("2951 s king drive");
             official.setOfficial_website("www.google.com");
             official.setOfficial_photo(R.drawable.brokenimage);
             officialList.add(official);
@@ -117,6 +126,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra("official_name", official.getOfficial_name());
         intent.putExtra("photo", official.getOfficial_photo());
         intent.putExtra("location", locationString);
+        intent.putExtra("official_office", official.getOfficial_office());
+        intent.putExtra("party", official.getOfficial_party());
+
+        if(!official.getFacebook().isEmpty()){
+            intent.putExtra("facebook", official.getFacebook());
+        }
+        if(!official.getTwitter().isEmpty()){
+            intent.putExtra("twitter",official.getTwitter());
+        }
+        if(!official.getYoutube().isEmpty()){
+            intent.putExtra("youtube",official.getYoutube());
+        }
+
+
+
         //position_for_editNote = position;
         //flag_editNote = true;
         //intent.putExtra("Position",position);
@@ -172,7 +196,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // Got last known location. In some situations this can be null.
                     if (location != null) {
                         locationString = getAddress(location);
-                        locationTextView.setText(locationString);
+                        civicDataDownloader = new CivicDataDownloader(locationString);
+                        civicDataDownloader.downloadGoogleCivicData(this);
+                        //locationTextView.setText(locationString);
                     }
                 })
                 .addOnFailureListener(this, e ->
@@ -214,5 +240,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
         return stringBuilder.toString();
+    }
+
+    public void setAddressBar(String adr){
+        locationTextView.setText(adr);
+        locationString = adr;
+    }
+
+    public void updateRecyclerView(ArrayList<Official> officialArrayList){
+        officialList.addAll(officialArrayList);
+        officialAdapter.notifyItemRangeChanged(0,officialList.size());
+        //officialAdapter.notifyDataSetChanged();
     }
 }

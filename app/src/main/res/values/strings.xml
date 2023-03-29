@@ -11,4 +11,8 @@
     <string name="version_strres">Version 1.0</string>
     <string name="about_screen_url">https://developers.google.com/civic-information/</string>
     <string name="about_screen_url_placeholder"><u>Google Civic Information API</u></string>
+    <string name="addressvalue_strres" ><u>a</u></string>
+    <string name="phoneno_strres" ><u>p</u></string>
+    <string name="emailid_strres" ><u>e</u></string>
+    <string name="url_strres" ><u>u</u></string>
 </resources>

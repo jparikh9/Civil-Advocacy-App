@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout_officialactivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple_500"
@@ -20,32 +21,34 @@
 
     <TextView
         android:id="@+id/name_officialactivity_vid"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="17dp"
-        android:text="TextView"
+        android:textAlignment="center"
         android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/location_officialactivity_vid" />
 
     <TextView
         android:id="@+id/office_officialactivity_vid"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:textAlignment="center"
         android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/name_officialactivity_vid"
         app:layout_constraintTop_toBottomOf="@+id/name_officialactivity_vid" />
 
     <TextView
         android:id="@+id/party_officialactivity_vid"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="16dp"
-        android:text="TextView"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/location_officialactivity_vid" />
@@ -101,8 +104,7 @@
         app:layout_constraintEnd_toEndOf="@+id/photo_officialactivity_vid"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="@+id/photo_officialactivity_vid"
-        app:layout_constraintTop_toTopOf="@+id/photo_officialactivity_vid"
-        app:srcCompat="@drawable/dem_logo" />
+        app:layout_constraintTop_toTopOf="@+id/photo_officialactivity_vid" />
 
     <TextView
         android:id="@+id/addresstitle_officialactivity_vid"
@@ -117,11 +119,13 @@
 
     <TextView
         android:id="@+id/addressvalue_officialactivity_vid"
-        android:layout_width="wrap_content"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:text="TextView"
+        android:onClick="clickAddress"
+        android:textAlignment="center"
         android:textColor="@color/white"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/addresstitle_officialactivity_vid"
         app:layout_constraintStart_toStartOf="parent"
@@ -140,22 +144,26 @@
 
     <TextView
         android:id="@+id/phoneNo_officialactivity_vid"
-        android:layout_width="wrap_content"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="104dp"
-        android:text="TextView"
+        android:onClick="clickCall"
+        android:textAlignment="center"
         android:textColor="@color/white"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/phone_officialactivity_vid" />
 
     <TextView
         android:id="@+id/emailid_officialactivity_id"
-        android:layout_width="wrap_content"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:text="TextView"
+        android:onClick="clickEmail"
+        android:textAlignment="center"
         android:textColor="@color/white"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/email_officialactivity_vid" />
@@ -173,11 +181,13 @@
 
     <TextView
         android:id="@+id/url_officialactivity_vid"
-        android:layout_width="wrap_content"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
-        android:text="TextView"
+        android:onClick="goToInfoPage"
+        android:textAlignment="center"
         android:textColor="@color/white"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/website_officialactivity_vid" />
