@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -20,6 +21,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             determineCurrentLocation();
         }
         else{
-            locationTextView.setText("No Internet");
+            setNoInternetMainLayout();
         }
         String loc = (String) locationTextView.getText();
 
@@ -79,25 +81,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-
-    }
-
-    public void getOfficialData(){
-        for(int i =0;i<14;i++){
-            Official official = new Official();
-            //official.setOfficial_email_id("jinitemail");
-            official.setOfficial_name("jinit " + i);
-            official.setOfficial_office("seceratry");
-            official.setOfficial_party("republic");
-            official.setPhone_number("3127145106");
-            official.setOfficial_address("2951 s king drive");
-            official.setOfficial_website("www.google.com");
-            official.setOfficial_photo(R.drawable.brokenimage);
-            officialList.add(official);
+        /*if(!hasNetworkConnection()){
+            setNoInternetMainLayout();
         }
-        officialAdapter.notifyItemRangeChanged(0,officialList.size());
+        else{
+            if(officialList.isEmpty()){
+                fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+                //getOfficialData();
+                determineCurrentLocation();
+            }
+            else{
+                updateRecyclerView(officialList);
+            }
+
+        }*/
 
     }
+
+    protected void onPause() {
+
+        if(!hasNetworkConnection()){
+            setNoInternetMainLayout();
+        }
+        else{
+            if(officialList.isEmpty()){
+                fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+                //getOfficialData();
+                determineCurrentLocation();
+            }
+            else{
+                updateRecyclerView(officialList);
+            }
+
+        }
+
+        super.onPause();
+    }
+
+
 
     @Override
     public void onClick(View view) {
@@ -138,6 +159,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(!official.getYoutube().isEmpty()){
             intent.putExtra("youtube",official.getYoutube());
         }
+        if(!official.getOfficial_photo_url().isEmpty()){
+            intent.putExtra("photourl", official.getOfficial_photo_url());
+        }
 
 
 
@@ -161,8 +185,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return (networkInfo != null && networkInfo.isConnectedOrConnecting());
     }
 
+    private void setNoInternetMainLayout(){
+        String noInternetMsg = "No Data For Location";
+        locationTextView.setText(noInternetMsg);
+        recyclerViewOfficialList.setVisibility(View.INVISIBLE);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        //builder.setIcon(R.drawable.location);
+
+        builder.setMessage("Data cannot be accessed without internet");
+        builder.setTitle("No Network Connection");
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void setMainLayoutVisible(){
+        recyclerViewOfficialList.setVisibility(View.VISIBLE);
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(!hasNetworkConnection()){
+            setNoInternetMainLayout();
+            Toast.makeText(this, "Cannot use menu items when no Internet", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        setMainLayoutVisible();
         int selected = item.getItemId();
         if(selected == R.id.about_menu_vid){
             Intent intent = new Intent(this,AboutActivity.class);
@@ -171,17 +220,80 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
         else if(selected == R.id.location_menu_vid){
+            //WeatherDataDownloader wd = new WeatherDataDownloader(this);
+            EditText location = new EditText(this);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(location);
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    String text = location.getText().toString();
+                    if(!text.isEmpty()){
+                        text = text.trim().replaceAll(", ", ",");
+                        //wd.getCrossingWeatherData();
+                        String address = determineEnteredLocation(text);
+                        officialList.clear();
+                        civicDataDownloader = new CivicDataDownloader(address);
+                        civicDataDownloader.downloadGoogleCivicData(MainActivity.this);
+                        //Objects.requireNonNull(this.getSupportActionBar()).setTitle("Chicago,IL");
+                    }
+                    else {
+                        showMessageLocationNull();
+                        //Toast.makeText(this, "Cannot use menu items when no Internet", Toast.LENGTH_SHORT).show();
+                    }
+                    //finish();
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
 
-            builder.setIcon(R.drawable.location);
 
-            builder.setMessage("Here is useful info.");
-            builder.setTitle("Location Dialog");
+            builder.setTitle("Enter Address");
+            //builder.setMessage("Enter city");
 
             AlertDialog dialog = builder.create();
             dialog.show();
+            //download();
+            //return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showMessageLocationNull(){
+        Toast.makeText(this, "Enter location ", Toast.LENGTH_SHORT).show();
+    }
+
+    private String determineEnteredLocation(String location){
+        StringBuilder stringBuilder = new StringBuilder();
+
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        List<Address> addresses;
+
+        try {
+            addresses = geocoder.getFromLocationName(location,1);
+            if(addresses.isEmpty()){
+                return null;
+            }
+            city = addresses.get(0).getLocality();
+            state = addresses.get(0).getAdminArea();
+            plotNo = addresses.get(0).getSubThoroughfare();
+            streetName = addresses.get(0).getThoroughfare();
+            postalCode = addresses.get(0).getPostalCode();
+
+            stringBuilder.append(String.format(Locale.getDefault(), "%s %s,%s,%s %s",
+                    plotNo != null?plotNo:"",
+                    streetName!=null?streetName:"",
+                    postalCode!=null?postalCode:"",
+                    city!=null?city:"",
+                    state!=null?state:""));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
     }
 
     private void determineCurrentLocation() {

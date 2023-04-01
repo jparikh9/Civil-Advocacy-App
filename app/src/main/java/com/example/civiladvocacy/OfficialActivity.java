@@ -16,6 +16,8 @@ import android.widget.Toast;
 import android.net.Uri;
 import android.content.pm.PackageManager;
 
+import com.bumptech.glide.Glide;
+
 import org.w3c.dom.Text;
 
 public class OfficialActivity extends AppCompatActivity {
@@ -46,6 +48,7 @@ public class OfficialActivity extends AppCompatActivity {
     ConstraintLayout ct;
     ImageView partylogo;
     String partystr;
+    String photourl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,14 +139,40 @@ public class OfficialActivity extends AppCompatActivity {
                 partylogo.setImageResource(R.drawable.dem_logo);
             } else if (partystr.equalsIgnoreCase("Republican Party")) {
                 ct.setBackgroundColor(Color.RED);
-                imageViewPhoto.setImageResource(R.drawable.rep_logo);
+                partylogo.setImageResource(R.drawable.rep_logo);
             }
             else{
                 ct.setBackgroundColor(Color.BLACK);
             }
         }
-        if(intent.hasExtra("photo")){
-            imageViewPhoto.setImageResource((int)getIntent().getSerializableExtra("photo"));
+        if(intent.hasExtra("photourl")){
+            //imageViewPhoto.setImageResource((int)getIntent().getSerializableExtra("photo"));
+            photourl = (String)getIntent().getSerializableExtra("photourl");
+            downloadPhoto(photourl);
+        }
+        else{
+            photourl = "";
+            downloadPhoto(photourl);
+        }
+    }
+
+    public void downloadPhoto(String imageurl){
+
+
+        if(imageurl.isEmpty()){
+            Glide.with(this)
+                    .load(R.drawable.missing).placeholder(R.drawable.missing)
+                    .into(imageViewPhoto);
+
+        }
+        else {
+            String[] k = imageurl.split("//");
+            imageurl = "https://"+ k[1];
+            Glide.with(this)
+                    .load(imageurl).error(R.drawable.brokenimage).placeholder(R.drawable.missing)
+                    .into(imageViewPhoto);
+
+
         }
     }
 
@@ -257,6 +286,21 @@ public class OfficialActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    public void clickPhoto(View v){
+        try{
+            Intent intent = new Intent(this, PhotoActivity.class);
+            intent.putExtra("location1", location.getText().toString());
+            intent.putExtra("official_name1", textViewName.getText().toString());
+            intent.putExtra("photo1", photourl);
+
+            intent.putExtra("official_office1", office.getText().toString());
+            intent.putExtra("party1", partystr);
+            startActivity(intent);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public boolean isPackageInstalled(String packageName) {

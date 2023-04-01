@@ -41,7 +41,12 @@ public class CivicDataDownloader {
 
                 JSONObject normalizedInput = new JSONObject();
                 normalizedInput = response.getJSONObject("normalizedInput");
-                stringBuilder.append(String.format(Locale.getDefault(), "%s %s,%s,%s", normalizedInput.getString("line1"),normalizedInput.getString("city"),normalizedInput.getString("state"),normalizedInput.getString("zip")));
+                stringBuilder.setLength(0);
+                stringBuilder.append(String.format(Locale.getDefault(), "%s %s,%s,%s",
+                        normalizedInput.has("line1")?normalizedInput.getString("line1"):"",
+                        normalizedInput.has("city")?normalizedInput.getString("city"):"",
+                        normalizedInput.has("state")?normalizedInput.getString("state"):"",
+                        normalizedInput.has("zip")?normalizedInput.getString("zip"):""));
                 mainActivity.setAddressBar(stringBuilder.toString());
 
                 offices = response.getJSONArray("offices");
